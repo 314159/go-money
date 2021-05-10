@@ -91,7 +91,7 @@ func TestMoney(t *testing.T) {
 			Expects:  "",
 			ExpCurr:  nil,
 			ExpErr:   true,
-			ErrMsg:   "Invalid Money amount: 123.123",
+			ErrMsg:   "invalid Money amount: 123.123",
 		},
 		{
 			Case:     "123.12.3 USD",
@@ -100,7 +100,7 @@ func TestMoney(t *testing.T) {
 			Expects:  "",
 			ExpCurr:  nil,
 			ExpErr:   true,
-			ErrMsg:   "Invalid Money amount: 123.12.3",
+			ErrMsg:   "invalid Money amount: 123.12.3",
 		},
 		{
 			Case:     "Non-numeric-amount",
@@ -109,7 +109,7 @@ func TestMoney(t *testing.T) {
 			Expects:  "",
 			ExpCurr:  nil,
 			ExpErr:   true,
-			ErrMsg:   "Invalid Money amount: 12.3X",
+			ErrMsg:   "invalid Money amount: 12.3X",
 		},
 		{
 			Case:     "123 JPY",
@@ -126,7 +126,7 @@ func TestMoney(t *testing.T) {
 			Expects:  "",
 			ExpCurr:  nil,
 			ExpErr:   true,
-			ErrMsg:   "Invalid Money amount: 123.10",
+			ErrMsg:   "invalid Money amount: 123.10",
 		},
 	}
 

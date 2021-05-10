@@ -57,7 +57,7 @@ func NewMoney(amount string, c Currency) (Money, error) {
 		return nil, fmt.Errorf("invalid Money amount: %s", amount)
 	}
 
-	// TODO: strip off trailing zeros from decimalPart so "1.00" dp 0 is okay
+	// TODO: #4 strip off trailing zeros from decimalPart so "1.00" dp 0 is okay
 
 	l := len(decimalPart)
 	dd := c.DecimalDigits()

@@ -54,7 +54,7 @@ func NewMoney(amount string, c Currency) (Money, error) {
 		integerPart = parts[0]
 		decimalPart = parts[1]
 	default:
-		return nil, fmt.Errorf("Invalid Money amount: %s", amount)
+		return nil, fmt.Errorf("invalid Money amount: %s", amount)
 	}
 
 	// TODO: strip off trailing zeros from decimalPart so "1.00" dp 0 is okay
@@ -69,12 +69,12 @@ func NewMoney(amount string, c Currency) (Money, error) {
 		break
 	default:
 		// This would cause loss of precision!
-		return nil, fmt.Errorf("Invalid Money amount: %s", amount)
+		return nil, fmt.Errorf("invalid Money amount: %s", amount)
 	}
 
 	v, err := strconv.ParseInt(integerPart+decimalPart, 10, 64)
 	if err != nil {
-		return nil, fmt.Errorf("Invalid Money amount: %s", amount)
+		return nil, fmt.Errorf("invalid Money amount: %s", amount)
 	}
 
 	m := money{value: v, currency: c}

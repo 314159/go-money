@@ -8,8 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 ### Changed
+- Made error messages begin with lowercase letter per go lint.
 ### Deprecated
 ### Removed
 ### Fixed
 ### Security
+
 <!-- markdownlint-configure-file { "MD022": false, "MD024": false, "MD030": false, "MD032": false} -->

@@ -11,6 +11,8 @@ type money struct {
 	currency Currency
 }
 
+const decimalPoint = "."
+
 func (m money) String() string {
 	dp := m.currency.DecimalDigits()
 	av, sign := func(v int64) (int64, string) {
@@ -33,7 +35,7 @@ func (m money) String() string {
 	default:
 		integerPart := v[:len(v)-dp]
 		decimalPart := v[len(v)-dp:]
-		return fmt.Sprintf("%s%s.%s", sign, integerPart, decimalPart)
+		return fmt.Sprintf("%s%s%s%s", sign, integerPart, decimalPoint, decimalPart)
 	}
 }
 func (m money) Currency() Currency {
@@ -42,7 +44,7 @@ func (m money) Currency() Currency {
 
 // NewMoney constructs a Money object from the amount string and the currency.
 func NewMoney(amount string, c Currency) (Money, error) {
-	parts := strings.Split(amount, ".")
+	parts := strings.Split(amount, decimalPoint)
 
 	var integerPart, decimalPart string
 

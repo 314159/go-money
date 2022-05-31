@@ -11,4 +11,4 @@ The following versions are currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-To report a security vulnerability, please email scott.nelson@thermeon.com
+To report a security vulnerability, please email scott.nelson@rentallsoftware.com

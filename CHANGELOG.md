@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changes
+- Upgrade github.com/stretchr/testify to v1.8.0
 
 ## [v1.0.2]
 ### SECURITY

@@ -1,9 +1,12 @@
-package money_test
+package currencylist_test
 
 import (
 	"testing"
 
+	"github.com/314159/go-money/currency"
+	"github.com/314159/go-money/currencylist"
 	"github.com/314159/go-money/money"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -18,7 +21,7 @@ func TestAddCurrency(t *testing.T) {
 		{
 			testName:  "New Currency",
 			code:      "AAA",
-			c:         money.NewCurrency("AAA", "000", 4),
+			c:         currency.New("AAA", "000", 4),
 			exists:    false,
 			expectNil: false,
 		},
@@ -32,16 +35,20 @@ func TestAddCurrency(t *testing.T) {
 		{
 			testName:  "Replace Currency",
 			code:      "AAA",
-			c:         money.NewCurrency("AAA", "111", 4),
+			c:         currency.New("AAA", "111", 4),
 			exists:    true,
 			expectNil: false,
 		},
 	}
+
+	l := currencylist.New()
+	l.AddMany(currency.StandardList)
+
 	for _, tc := range testCases {
 		t.Run(tc.testName, func(t *testing.T) {
-			before := money.FindCurrency(tc.code)
-			money.AddCurrency(tc.c)
-			after := money.FindCurrency(tc.code)
+			before := l.FindCurrency(tc.code)
+			l.AddCurrency(tc.c)
+			after := l.FindCurrency(tc.code)
 
 			assert.Equal(t, tc.exists, before != nil)
 			assert.Equal(t, tc.expectNil, after == nil)
@@ -105,7 +112,9 @@ func TestFindCurrency(t *testing.T) {
 			var nc string
 			var dd int
 
-			c := money.FindCurrency(tc.s)
+			l := currencylist.New()
+			l.AddMany(currency.StandardList)
+			c := l.FindCurrency(tc.s)
 			if c != nil {
 				s = c.String()
 				nc = c.NumericCode()

@@ -3,13 +3,15 @@ package money_test
 import (
 	"testing"
 
+	"github.com/314159/go-money/currency"
 	"github.com/314159/go-money/money"
+
 	"github.com/stretchr/testify/assert"
 )
 
 func TestMoney(t *testing.T) {
-	usDollar := money.NewCurrency("USD", "840", 2)
-	jpYen := money.NewCurrency("JPY", "139", 0)
+	usDollar := currency.New("USD", "840", 2)
+	jpYen := currency.New("JPY", "139", 0)
 
 	testCases := []struct {
 		Case     string

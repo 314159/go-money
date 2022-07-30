@@ -11,6 +11,18 @@ type money struct {
 	currency Currency
 }
 
+// Currency represents a monetary currency
+type Currency interface {
+	// NumericCode returns the ISO numeric currency code as a string, e.g. "840"
+	NumericCode() string
+
+	// DecimalDigits returns the number of decimal digits used by the currency
+	DecimalDigits() int
+
+	// String returns the ISO alphabetic currency code, e.g. "GBP"
+	String() string
+}
+
 const decimalPoint = "."
 
 func (m money) String() string {
@@ -43,7 +55,7 @@ func (m money) Currency() Currency {
 }
 
 // NewMoney constructs a Money object from the amount string and the currency.
-func NewMoney(amount string, c Currency) (Money, error) {
+func NewMoney(amount string, c Currency) (*money, error) {
 	parts := strings.Split(amount, decimalPoint)
 
 	var integerPart, decimalPart string

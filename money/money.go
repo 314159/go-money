@@ -6,6 +6,13 @@ import (
 	"strings"
 )
 
+// Currency represents a monetary currency
+type Currency interface {
+	NumericCode() string
+	DecimalDigits() int
+	String() string
+}
+
 type money struct {
 	value    int64
 	currency Currency
@@ -43,7 +50,7 @@ func (m money) Currency() Currency {
 }
 
 // NewMoney constructs a Money object from the amount string and the currency.
-func NewMoney(amount string, c Currency) (Money, error) {
+func NewMoney(amount string, c Currency) (*money, error) {
 	parts := strings.Split(amount, decimalPoint)
 
 	var integerPart, decimalPart string

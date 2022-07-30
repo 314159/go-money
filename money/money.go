@@ -59,8 +59,6 @@ func NewMoney(amount string, c Currency) (Money, error) {
 		return nil, fmt.Errorf("invalid Money amount: %s", amount)
 	}
 
-	// TODO: #4 strip off trailing zeros from decimalPart so "1.00" dp 0 is okay
-
 	l := len(decimalPart)
 	dd := c.DecimalDigits()
 
@@ -69,6 +67,8 @@ func NewMoney(amount string, c Currency) (Money, error) {
 		decimalPart = decimalPart + fmt.Sprintf("%0*d", dd-l, 0)
 	case l == dd:
 		break
+	case (l > dd) && (decimalPart[dd:] == strings.Repeat("0", l-dd)):
+		decimalPart = decimalPart[:dd]
 	default:
 		// This would cause loss of precision!
 		return nil, fmt.Errorf("invalid Money amount: %s", amount)

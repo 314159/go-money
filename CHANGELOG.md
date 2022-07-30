@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changes
 - Upgrade github.com/stretchr/testify to v1.8.0
 - Upgrade go version used by github actions to v1.18.x
+- Allow trailing decimal zeros.  Fixes issue [#4](https://github.com/314159/go-money/issues/4)
 
 ## [v1.0.2]
 ### SECURITY

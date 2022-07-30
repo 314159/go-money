@@ -120,6 +120,14 @@ func TestMoney(t *testing.T) {
 			ExpErr:   false,
 		},
 		{
+			Case:     "Extra zeros in decimal part",
+			Amount:   "123.4500",
+			Currency: usDollar,
+			Expects:  "123.45",
+			ExpCurr:  usDollar,
+			ExpErr:   false,
+		},
+		{
 			Case:     "123.10 JPY",
 			Amount:   "123.10",
 			Currency: jpYen,

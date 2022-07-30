@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changes
 - Upgrade github.com/stretchr/testify to v1.8.0
+- Upgrade go version used by github actions to v1.18.x
 
 ## [v1.0.2]
 ### SECURITY

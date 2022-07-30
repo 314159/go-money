@@ -2,31 +2,30 @@ name: Go
 
 on:
   push:
-    branches: [ develop, feature/* ]
+    branches: [develop, feature/*]
   pull_request:
-    branches: [ develop, feature/* ]
+    branches: [develop, feature/*]
 
 jobs:
-
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.18
 
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
-      with:
-        go-version: ^1.13
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
 
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v2
+      - name: Get dependencies
+        run: |
+          go mod download
+          go test -i
 
-    - name: Get dependencies
-      run: |
-        go mod tidy
+      - name: Build
+        run: go build -v ./...
 
-    - name: Build
-      run: go build -v ./...
-
-    - name: Test
-      run: go test -v ./...
+      - name: Test
+        run: go test -v ./...

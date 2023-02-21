@@ -23,7 +23,7 @@ func (c currency) String() string {
 }
 
 // NewCurrency constructs a currency object
-func NewCurrency(alphaCode, numericCode string, decimalDigits int) Currency {
+func NewCurrency(alphaCode, numericCode string, decimalDigits int) *currency {
 	c := currency{
 		alphaCode:     alphaCode,
 		numericCode:   numericCode,

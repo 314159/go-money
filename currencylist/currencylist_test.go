@@ -50,8 +50,17 @@ func TestAddCurrency(t *testing.T) {
 			l.AddCurrency(tc.c)
 			after := l.FindCurrency(tc.code)
 
-			assert.Equal(t, tc.exists, before != nil)
-			assert.Equal(t, tc.expectNil, after == nil)
+			if tc.exists {
+				assert.NotNil(t, before)
+			} else {
+				assert.Nil(t, before)
+			}
+
+			if tc.expectNil {
+				assert.Nil(t, after)
+			} else {
+				assert.NotNil(t, after)
+			}
 		})
 	}
 }
@@ -108,23 +117,18 @@ func TestFindCurrency(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.Case, func(t *testing.T) {
-			var s string
-			var nc string
-			var dd int
-
 			l := currencylist.New()
 			l.AddMany(currency.StandardList)
 			c := l.FindCurrency(tc.s)
-			if c != nil {
-				s = c.String()
-				nc = c.NumericCode()
-				dd = c.DecimalDigits()
-			}
 
-			assert.Equal(t, tc.isNil, c == nil)
-			assert.Equal(t, tc.s, s)
-			assert.Equal(t, tc.nc, nc)
-			assert.Equal(t, tc.dd, dd)
+			if tc.isNil {
+				assert.Nil(t, c)
+			} else {
+				assert.NotNil(t, c)
+				assert.Equal(t, tc.s, c.String())
+				assert.Equal(t, tc.nc, c.NumericCode())
+				assert.Equal(t, tc.dd, c.DecimalDigits())
+			}
 		})
 	}
 }

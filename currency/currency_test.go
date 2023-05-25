@@ -42,6 +42,7 @@ func TestCurrency(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.testName, func(t *testing.T) {
 			c := currency.New(tc.alphaCode, tc.numericCode, tc.decimalDigits)
+			assert.NotNil(t, c, "Failed to create a currency")
 			assert.Equal(t, tc.alphaCode, c.AlphaCode())
 			assert.Equal(t, tc.numericCode, c.NumericCode())
 			assert.Equal(t, tc.decimalDigits, c.DecimalDigits())

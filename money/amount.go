@@ -7,79 +7,84 @@ import (
 )
 
 type amount struct {
-	s string
+	sign     string
+	intPart  string
+	fracPart string
 }
 
-func New(s string) (*amount, error) {
-	s, i, d, err := splitParts(s)
+// New will take a string containing a decimal number, potentially with a fraction part and/or a sign,
+// and will validate it and return an "amount" struct with a normalized string value.
+func New(sign string) (*amount, error) {
+	sign, intPart, fracPart, err := splitParts(sign)
 	if err != nil {
 		return nil, err
 	}
 
-	if i == "0" && len(d) == 0 {
-		return &amount{s: "0"}, nil // We don't want "-0", just "0"
+	if intPart == "0" && len(fracPart) == 0 {
+		sign = ""
 	}
 
-	if len(i) > 0 {
-		if _, err := strconv.ParseInt(i, 10, 64); err != nil {
+	if len(intPart) > 0 {
+		// Make sure integer part is numeric
+		if _, err := strconv.ParseInt(intPart, 10, 64); err != nil {
 			return nil, err
 		}
 	}
-	if len(d) == 0 {
-		return &amount{s: s + i}, nil
+
+	if len(fracPart) > 0 {
+		// Make sure fractional part is numerc
+		if _, err := strconv.ParseInt(fracPart, 10, 64); err != nil {
+			return nil, err
+		}
 	}
 
-	if _, err := strconv.ParseInt(d, 10, 64); err != nil {
-		return nil, err
-	}
-
-	return &amount{s: s + i + decimalPoint + d}, nil
+	// All good, save parts for use later
+	return &amount{sign: sign, intPart: intPart, fracPart: fracPart}, nil
 }
 
 func (a *amount) String() string {
 	if a == nil {
 		return "0"
 	}
-	return a.s
+	if len(a.fracPart) == 0 {
+		return a.sign + a.intPart
+	}
+
+	return a.sign + a.intPart + decimalPoint + a.fracPart
 }
 
 func (a *amount) SetDecimalDigits(dd int) *amount {
 	if a == nil {
 		return a
 	}
-	s, i, d, err := splitParts(a.s)
-	if err != nil {
-		return nil
-	}
+	sign := a.sign
+	intPart := a.intPart
+	fracPart := a.fracPart
 
 	for dp := dd; dp < 0; dp++ {
-		if i == "0" {
-			i = ""
+		if intPart == "0" {
+			intPart = ""
 		}
 
-		if len(d) == 0 {
-			i = i + "0"
+		if len(fracPart) == 0 {
+			intPart = intPart + "0"
 			continue
 		}
-		i = i + d[0:]
+		intPart = intPart + fracPart[0:]
 
-		d = d[1:]
+		fracPart = fracPart[1:]
 	}
 
 	switch {
 	case dd < 0:
 		dd = 0
-	case len(d) < dd:
-		d = d + strings.Repeat("0", dd-len(d))
-	case len(d) > dd:
-		d = d[:dd]
+	case len(fracPart) < dd:
+		fracPart = fracPart + strings.Repeat("0", dd-len(fracPart))
+	case len(fracPart) > dd:
+		fracPart = fracPart[:dd]
 	}
 
-	if d == "" {
-		return &amount{s: s + i}
-	}
-
-	return &amount{s: s + i + decimalPoint + d}
+	return &amount{sign: sign, intPart: intPart, fracPart: fracPart}
 }
 
 func splitParts(a string) (string, string, string, error) {
@@ -89,26 +94,26 @@ func splitParts(a string) (string, string, string, error) {
 		return "", "", "", fmt.Errorf("too many decimal points (%d)", len(parts))
 	}
 
-	i := parts[0]
-	d := ""
+	intPart := parts[0]
+	fracPart := ""
 
 	if len(parts) > 1 {
-		d = parts[1]
+		fracPart = parts[1]
 	}
 
-	s := ""
+	sign := ""
 	switch {
-	case i == "":
+	case intPart == "":
 		break
-	case i[0:1] == "+":
-		i = i[1:]
-	case i[0:1] == "-":
-		s = "-"
-		i = i[1:]
+	case intPart[0:1] == "+":
+		intPart = intPart[1:]
+	case intPart[0:1] == "-":
+		sign = "-"
+		intPart = intPart[1:]
 	}
-	if len(i) == 0 {
-		i = "0"
+	if len(intPart) == 0 {
+		intPart = "0"
 	}
 
-	return s, i, d, nil
+	return sign, intPart, fracPart, nil
 }
